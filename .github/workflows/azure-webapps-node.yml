@@ -37,7 +37,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-          creds: 7VM8Q~9mK1JXYs0QFMr8gT0X-oJD3xCkk_gt7ag7
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: actions/checkout@v4
 
     - name: Set up Node.js
