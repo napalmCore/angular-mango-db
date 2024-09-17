@@ -34,6 +34,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        client-id: d1393f95-f981-43a6-b1e4-cb96cea0f3d2
+        tenant-id: 1a372d48-450e-44fe-82ab-5235ae8d963f
+        username: angular-\$angular-
+        password: kQWEsyrwru24nyJ1gd0JhxdcZa95ShqiMvjYybihCqbB2Bp9vAk8dbd77uzT
     - uses: actions/checkout@v4
 
     - name: Set up Node.js
