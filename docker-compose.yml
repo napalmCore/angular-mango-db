@@ -10,7 +10,16 @@ services:
       - mongo
     networks:
       - app-network
-
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
   mongo:
     image: mongo:latest
     container_name: mongodb
