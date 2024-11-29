@@ -322,21 +322,6 @@
       </div>
     </div>
   </div>
-  <div>
-    <h1>Items List</h1>
-    
-    <!-- Display a loading message while fetching data -->
-    <div *ngIf="isLoading">
-      <p>Loading items...</p>
-    </div>
-  
-    <!-- Loop through items and display them -->
-    <ul *ngIf="items.length > 0">
-      <li *ngFor="let item of items">
-        <strong>{{ item.name }}</strong>: {{ item.description }}
-      </li>
-    </ul>
-  </div>
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

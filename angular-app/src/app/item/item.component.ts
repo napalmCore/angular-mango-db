@@ -1,16 +1,17 @@
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { ItemService } from './services/item.service';
+import { ItemService } from '../services/item.service';
 import { CommonModule } from '@angular/common';
+import {CreateItemComponent} from '../create-item/create-item.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-item',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [CreateItemComponent, CommonModule],
+  templateUrl: './item.component.html',
+  styleUrl: './item.component.css'
 })
-export class AppComponent implements OnInit {
+export class ItemComponent {
   title = 'mangodb-angualr';
   items: any[] = [];
   newItem = { name: '', description: '' };
