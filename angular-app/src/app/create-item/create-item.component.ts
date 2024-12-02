@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -11,10 +11,12 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateItemComponent {
   @Output() itemCreated = new EventEmitter<any>(); // EventEmitter for item creation
+  @Input() itemToEdit: any; // Item to edit
   addItemForm: FormGroup;
 
   constructor() {
     this.addItemForm = new FormGroup({
+      _id: new FormControl(''),
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(200)])
     });

@@ -3,8 +3,9 @@
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
       <!-- Name Field -->
       <div>
+        <input type="hidden" id="_id" name="_id" formControlName="_id" [(ngModel)]="itemToEdit._id" />
         <label for="name">Name:</label>
-        <input id="name" formControlName="name" />
+        <input id="name" formControlName="name" [(ngModel)]="itemToEdit.name" />
         <div *ngIf="addItemForm.get('name')?.invalid && addItemForm.get('name')?.touched">
           <small *ngIf="addItemForm.get('name')?.errors?.['required']">Name is required.</small>
           <small *ngIf="addItemForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</small>
@@ -14,7 +15,7 @@
       <!-- Description Field -->
       <div>
         <label for="description">Description:</label>
-        <textarea id="description" formControlName="description"></textarea>
+        <textarea id="description" formControlName="description" [(ngModel)]="itemToEdit.description"></textarea>
         <div *ngIf="addItemForm.get('description')?.invalid && addItemForm.get('description')?.touched">
           <small *ngIf="addItemForm.get('description')?.errors?.['required']">Description is required.</small>
           <small *ngIf="addItemForm.get('description')?.errors?.['maxlength']">Description cannot exceed 200 characters.</small>

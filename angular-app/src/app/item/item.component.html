@@ -10,7 +10,9 @@
     <!-- Loop through items and display them -->
     <ul *ngIf="items.length > 0">
         <li *ngFor="let item of items">
-            <strong>{{ item.name }}</strong>: {{ item.description }}
+            <strong>{{ item._id }}</strong>: {{ item.description }}
+            <button (click)="editItem(item._id)">Edit</button>
+            <button (click)="deleteItem(item._id)">delete</button>
         </li>
     </ul>
 
@@ -22,5 +24,5 @@
 
 </div>
 
-<app-create-item *ngIf="showCreateForm" (itemCreated)="addItem($event)">
+<app-create-item *ngIf="showCreateForm" (itemCreated)="addOrUpdateItem($event)" [itemToEdit]="itemToEdit" >
 </app-create-item>

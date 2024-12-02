@@ -25,4 +25,8 @@ export class ItemService {
   updateItem(id: string, item: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, item);
   }
+
+  getItem(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
 }
