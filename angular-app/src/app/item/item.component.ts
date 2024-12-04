@@ -8,11 +8,17 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [CreateItemComponent, CommonModule, MatGridListModule, MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [
+    CreateItemComponent, CommonModule, 
+    MatGridListModule, MatTableModule, MatPaginatorModule,
+     MatSortModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css'
 })
@@ -25,7 +31,7 @@ export class ItemComponent implements OnInit {
   showCreateForm: boolean = false; // Toggle for the create form
   itemToEdit: any = null; // Item to edit
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  displayedColumns: string[] = ['_id', 'name', 'description'];
+  displayedColumns: string[] = ['_id', 'name', 'description', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

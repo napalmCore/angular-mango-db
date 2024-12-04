@@ -5,11 +5,17 @@
     </app-create-item>
     <h1>Items List</h1>
 
+    <button mat-button (click)="toggleCreateForm()">
+        {{ showCreateForm ? 'Cancel' : 'Create Item' }}
+    </button>
     <!-- Display a loading message while fetching data -->
     <div *ngIf="isLoading">
         <p>Loading items...</p>
     </div>
-
+    <mat-form-field appearance="fill">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter data">
+      </mat-form-field>
     <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <!-- Define Columns -->
         <ng-container matColumnDef="_id">
@@ -26,19 +32,25 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
         </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-raised-button color="primary" (click)="editItem(element._id)">Edit</button>
+            </mat-cell>
+          </ng-container>
       
         <!-- Header and Row Definitions -->
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
       </mat-table>
       
       <!-- Paginator -->
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       
 
-    <button (click)="toggleCreateForm()">
-        {{ showCreateForm ? 'Cancel' : 'Create Item' }}
-    </button>
 
     <!-- Show Create Form if toggled -->
 
