@@ -1,25 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ItemService } from '../services/item.service';
 import { CommonModule } from '@angular/common';
 import {CreateItemComponent} from '../create-item/create-item.component';
 import { Item } from './item';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [CreateItemComponent, CommonModule],
+  imports: [CreateItemComponent, CommonModule, MatGridListModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css'
 })
-export class ItemComponent {
+
+export class ItemComponent implements OnInit {
   title = 'mangodb-angualr';
   items: Item[] = [];
   newItem = { name: '', description: '' };
   isLoading : boolean = false;
   showCreateForm: boolean = false; // Toggle for the create form
   itemToEdit: any = null; // Item to edit
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  displayedColumns: string[] = ['_id', 'name', 'description'];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  
   constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
@@ -38,8 +48,10 @@ export class ItemComponent {
   loadItems(): void {
     this.isLoading = true;
     this.itemService.getItems().subscribe((data: Item[]) => {
+      console.log(data);
       this.items = data;
       this.isLoading = false;
+      this.dataSource = new MatTableDataSource(data);
     });
   }
 
@@ -57,7 +69,6 @@ export class ItemComponent {
   }
 
   editItem(itemId: string): void {
-    console.log(itemId);
     this.itemService.getItem(itemId).subscribe((item) => {
       this.itemToEdit = item;
       this.showCreateForm = true;
@@ -68,5 +79,16 @@ export class ItemComponent {
     this.itemService.deleteItem(itemId).subscribe(() => {
       this.loadItems();
     });
+  }
+
+  ngAfterViewInit() {
+    console.log(this.paginator);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

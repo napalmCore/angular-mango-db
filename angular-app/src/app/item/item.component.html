@@ -1,5 +1,8 @@
-<p>item works!</p>
+
 <div>
+
+    <app-create-item *ngIf="showCreateForm" (itemCreated)="addOrUpdateItem($event)" [itemToEdit]="itemToEdit" >
+    </app-create-item>
     <h1>Items List</h1>
 
     <!-- Display a loading message while fetching data -->
@@ -7,14 +10,31 @@
         <p>Loading items...</p>
     </div>
 
-    <!-- Loop through items and display them -->
-    <ul *ngIf="items.length > 0">
-        <li *ngFor="let item of items">
-            <strong>{{ item._id }}</strong>: {{ item.description }}
-            <button (click)="editItem(item._id)">Edit</button>
-            <button (click)="deleteItem(item._id)">delete</button>
-        </li>
-    </ul>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- Define Columns -->
+        <ng-container matColumnDef="_id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element._id }}</mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+        </ng-container>
+      
+        <!-- Header and Row Definitions -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      
 
     <button (click)="toggleCreateForm()">
         {{ showCreateForm ? 'Cancel' : 'Create Item' }}
@@ -23,6 +43,3 @@
     <!-- Show Create Form if toggled -->
 
 </div>
-
-<app-create-item *ngIf="showCreateForm" (itemCreated)="addOrUpdateItem($event)" [itemToEdit]="itemToEdit" >
-</app-create-item>
