@@ -23,8 +23,12 @@ export class CreateItemComponent {
   readonly dialogRef = inject(MatDialogRef<CreateItemComponent>);
   readonly data = inject<Item>(MAT_DIALOG_DATA);
   readonly animal = model(this.data);
-
+  pageTitle = 'Create Item';
+ 
   constructor() {
+    if (this.data._id) {
+      this.pageTitle = 'Edit Item';
+    } 
     this.addItemForm = new FormGroup({
       _id: new FormControl(''),
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),

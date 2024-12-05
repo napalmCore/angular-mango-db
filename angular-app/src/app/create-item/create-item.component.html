@@ -1,5 +1,5 @@
 <div>
-    <h2>Create New Item</h2>
+    <h2>{{pageTitle}}</h2>
 
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
       <div>
@@ -28,7 +28,7 @@
   
       <!-- Submit Button -->
       <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="addItemForm.invalid" cdkFocusInitial>Ok</button>
+      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="addItemForm.invalid" cdkFocusInitial>Save</button>
 
     </form>
   </div>
