@@ -1,13 +1,14 @@
 
 <div>
 
-    <app-create-item *ngIf="showCreateForm" (itemCreated)="addOrUpdateItem($event)" [itemToEdit]="itemToEdit" >
-    </app-create-item>
+
     <h1>Items List</h1>
 
     <button mat-button (click)="toggleCreateForm()">
         {{ showCreateForm ? 'Cancel' : 'Create Item' }}
     </button>
+    <button mat-raised-button color="primary" (click)="openCreateItemDialog(null)">Create Item</button>
+
     <!-- Display a loading message while fetching data -->
     <div *ngIf="isLoading">
         <p>Loading items...</p>
@@ -36,7 +37,7 @@
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <button mat-raised-button color="primary" (click)="editItem(element._id)">Edit</button>
+              <button mat-raised-button color="primary" (click)="openCreateItemDialog(element._id)">Edit</button>
             </mat-cell>
           </ng-container>
       

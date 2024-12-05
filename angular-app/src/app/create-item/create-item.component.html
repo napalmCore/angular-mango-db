@@ -3,9 +3,9 @@
 
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
       <div>
-        <input type="hidden" id="_id" name="_id" formControlName="_id" [(ngModel)]="itemToEdit._id" />
+        <input type="hidden" id="_id" name="_id" formControlName="_id" [(ngModel)]="data._id" />
         <mat-form-field class="example-full-width">
-          <input  matInput type="text" formControlName="name" id="name" [(ngModel)]="itemToEdit.name" />
+          <input  matInput type="text" formControlName="name" id="name" [(ngModel)]="data.name" />
         </mat-form-field>
         <div *ngIf="addItemForm.get('name')?.invalid && addItemForm.get('name')?.touched">
           <small *ngIf="addItemForm.get('name')?.errors?.['required']">Name is required.</small>
@@ -17,7 +17,7 @@
       <div>
         <label for="description">Description:</label>
         <mat-form-field class="example-full-width">
-<textarea matInput id="description" formControlName="description" [(ngModel)]="itemToEdit.description"></textarea>
+<textarea matInput id="description" formControlName="description" [(ngModel)]="data.description"></textarea>
         
         </mat-form-field>
         <div *ngIf="addItemForm.get('description')?.invalid && addItemForm.get('description')?.touched">
@@ -27,7 +27,9 @@
       </div>
   
       <!-- Submit Button -->
-      <button mat-raised-button color="primary" type="submit" [disabled]="addItemForm.invalid">Add Item</button>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="addItemForm.invalid" cdkFocusInitial>Ok</button>
+
     </form>
   </div>
   
