@@ -62,15 +62,6 @@ export class ItemComponent implements OnInit {
     this.loadItems();
   }
 
-  toggleCreateForm(): void {
-    this.showCreateForm = !this.showCreateForm; // Toggle the create form visibility
-    this.itemToEdit = {
-      _id: null,
-      name: '',
-      description: ''
-    };
-  }
-
   loadItems(): void {
     this.isLoading = true;
     this.itemService.getItems().subscribe((data: Item[]) => {
