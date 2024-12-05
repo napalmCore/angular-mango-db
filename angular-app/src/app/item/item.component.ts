@@ -119,7 +119,6 @@ export class ItemComponent implements OnInit {
           data: this.itemToEdit,
         });
         dialogRef.afterClosed().subscribe((result) => {
-          console.log(result);
           if (result) {
             this.addOrUpdateItem(result);
           }
