@@ -1,4 +1,4 @@
-import { RouterOutlet } from '@angular/router';
+import { RouterEvent, RouterOutlet } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from './services/item.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateItemComponent } from './create-item/create-item.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
   isLoading : boolean = false;
   showCreateForm: boolean = false; // Toggle for the create form
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
   }
@@ -34,8 +35,8 @@ export class AppComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
-      // Handle any post-dialog logic here, like refreshing the items list
+      //redirecting to the items page
+      this.router.navigate(['/items']);
     });
   }
 }
