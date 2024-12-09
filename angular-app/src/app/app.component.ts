@@ -8,22 +8,25 @@ import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { Router } from '@angular/router';
+import { ItemComponent } from './item/item.component';
+import { Item } from './item/item';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatMenuModule, MatButtonModule, RouterModule],
+  imports: [RouterOutlet, CommonModule, MatMenuModule, MatButtonModule, RouterModule, ItemComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  title = 'mangodb-angualr';
+  title = 'mangodb-angular';
   items: any[] = [];
   newItem = { name: '', description: '' };
   isLoading : boolean = false;
   showCreateForm: boolean = false; // Toggle for the create form
-
-  constructor(private dialog: MatDialog, private router: Router) {}
+  item : Item | null = null;
+  
+  constructor(private dialog: MatDialog, private router: Router, private itemService: ItemService) {}
 
   ngOnInit(): void {
   }
@@ -35,8 +38,9 @@ export class AppComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      //redirecting to the items page
-      this.router.navigate(['/items']);
+      this.itemService.addItem(result).subscribe((item) => {
+        this.router.navigate(['/items']);
+      });
     });
   }
 }

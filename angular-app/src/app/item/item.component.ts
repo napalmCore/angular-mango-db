@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ItemService } from '../services/item.service';
 import { CommonModule } from '@angular/common';
@@ -41,7 +41,6 @@ import {
 export class ItemComponent implements OnInit {
   title = 'mangodb-angualr';
   items: Item[] = [];
-  newItem = { name: '', description: '' };
   isLoading : boolean = false;
   showCreateForm: boolean = false; // Toggle for the create form
   itemToEdit: any = {
@@ -55,7 +54,7 @@ export class ItemComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
@@ -73,7 +72,6 @@ export class ItemComponent implements OnInit {
   }
 
   addOrUpdateItem(newItem: Item): void {
-    console.log(newItem);
     if (newItem._id) {
       this.itemService.updateItem(newItem._id, newItem).subscribe((item) => {
         this.loadItems();
