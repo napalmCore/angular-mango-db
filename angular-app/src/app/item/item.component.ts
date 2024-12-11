@@ -20,6 +20,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-item',
@@ -140,6 +141,20 @@ export class ItemComponent implements OnInit {
         }
       });
     }
+  }
+
+  openConfirmDeleteItemDialog(itemId: string): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '400px',
+      data: {
+        itemId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteItem(result);
+      }
+    });
   }
 }
 
