@@ -100,9 +100,11 @@ export class ItemComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.paginator);
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    
+    this.sort.sortChange.subscribe((event) => {
+      this.dataSource.sort = this.sort;
+    });
   }
 
   applyFilter(event: Event) {
