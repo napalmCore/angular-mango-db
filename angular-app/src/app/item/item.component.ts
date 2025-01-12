@@ -11,6 +11,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -34,6 +36,7 @@ import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-d
      MatDialogClose,
      MatDialogContent,
      MatDialogTitle,
+     MatCheckboxModule
     ],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css'
@@ -51,7 +54,7 @@ export class ItemComponent implements OnInit {
     description: ''
   }; // Item to edit
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  displayedColumns: string[] = ['_id', 'name', 'description', 'action'];
+  displayedColumns: string[] = ['select', '_id', 'name', 'description', 'action'];
   readonly dialog = inject(MatDialog);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -61,6 +64,40 @@ export class ItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadItems();
+  }
+
+  selectedRows: Set<any> = new Set();
+
+  // Check if a row is selected
+  isSelected(row: any): boolean {
+    return this.selectedRows.has(row);
+  }
+
+  // Toggle selection for a row
+  toggleRowSelection(row: any): void {
+    if (this.selectedRows.has(row)) {
+      this.selectedRows.delete(row);
+    } else {
+      this.selectedRows.add(row);
+    }
+  }
+
+  // Check if all rows are selected
+  isAllSelected(): boolean {
+    return this.selectedRows.size === this.dataSource.data.length;
+  }
+
+  isIndeterminate(): boolean {
+    return this.selectedRows.size > 0 && this.selectedRows.size < this.dataSource.data.length;
+  }
+
+  // Toggle Select All checkbox
+  toggleSelectAll(event: any): void {
+    if (event.checked) {
+      this.selectedRows = new Set(this.dataSource.data);
+    } else {
+      this.selectedRows.clear();
+    }
   }
 
   loadItems(): void {
@@ -154,8 +191,23 @@ export class ItemComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteItem(result);
+        this.deleteItem(itemId);
       }
+    });
+  }
+
+  openConfirmDeleteItemsDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '400px',
+      data: {
+        itemId: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.selectedRows.forEach((row) => {
+          this.deleteItem(row._id);
+        });      }
     });
   }
 }
